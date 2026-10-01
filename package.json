@@ -1,0 +1,46 @@
+{
+  "name": "travelhub-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=server\" \"npm run dev --workspace=client\"",
+    "dev:server": "npm run dev --workspace=server",
+    "dev:client": "npm run dev --workspace=client",
+    "build": "npx prisma generate --schema=server/prisma/schema.prisma && npm run build --workspace=client && node -e \"const fs=require('fs'); try{if(fs.existsSync('client/dist') && !fs.existsSync('dist')) fs.cpSync('client/dist', 'dist', {recursive:true});}catch(e){}\"",
+    "vercel-build": "npx prisma generate --schema=server/prisma/schema.prisma && npm run build --workspace=client && node -e \"const fs=require('fs'); try{if(fs.existsSync('client/dist') && !fs.existsSync('dist')) fs.cpSync('client/dist', 'dist', {recursive:true});}catch(e){}\"",
+    "db:generate": "prisma generate --schema=server/prisma/schema.prisma",
+    "db:push": "npm run db:push --workspace=server",
+    "db:seed": "npm run db:seed --workspace=server"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "pino": "^9.6.0",
+    "pino-pretty": "^13.0.0",
+    "prisma": "^5.22.0",
+    "razorpay": "^2.9.5",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.8",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.8",
+    "@types/node": "^22.10.1",
+    "concurrently": "^8.2.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
